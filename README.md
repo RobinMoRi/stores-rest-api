@@ -61,23 +61,22 @@ curl -d '{"username": [USERNAME], "password": [PASSWORD]}' -H 'Content-Type: app
 }
 ```
 
-#### Authenticate user (get access token): POST /auth
+#### Authenticate user (get access token): POST /login
 ```bash
-curl -d '{"username": [USERNAME], "password": [PASSWORD]}' -H 'Content-Type: application/json' http://localhost:5000/auth
+curl -d '{"username": [USERNAME], "password": [PASSWORD]}' -H 'Content-Type: application/json' http://localhost:5000/login
 ```
 ```bash
 # HTTP/1.1 200 OK
 {
-  "access_token": [ACCESS TOKEN]
+    "access_token": [ACCESS TOKEN],
+    "refresh_token": [REFRESH TOKEN]
 }
 ```
 
 ```bash
 # HTTP/1.1 401 Unauthorized
 {
-  "description": "Invalid credentials",
-  "error": "Bad Request",
-  "status_code": 401
+    "message": "Invalid credentials"
 }
 ```
 
@@ -126,7 +125,7 @@ curl -d '{"price": [PRICE], "store_id": [STORE ID]}' -H 'Content-Type: applicati
 
 #### Get specific item (requires JWT autorization token): GET /items/<string:name>
 ```bash
-curl -H "Authorization: JWT [ACCESS TOKEN]" http://localhost:5000/items/[ITEM NAME]
+curl -H "Authorization: Bearer [ACCESS TOKEN]" http://localhost:5000/items/[ITEM NAME]
 ```
 ```bash
 # HTTP/1.1 200 OK
@@ -138,18 +137,8 @@ curl -H "Authorization: JWT [ACCESS TOKEN]" http://localhost:5000/items/[ITEM NA
 }
 ```
 ```bash
-# HTTP/1.1 401 Unauthorized
+# HTTP/1.1 422 Unprocessable Entity
 {
-  "description": "Signature verification failed",
-  "error": "Invalid token",
-  "status_code": 401
-}
-```
-```bash
-# HTTP/1.1 401 Unauthorized
-{
-  "description": "Signature has expired",
-  "error": "Invalid token",
-  "status_code": 401
+  "msg": "Signature verification failed"
 }
 ```

@@ -17,11 +17,19 @@ The project is done using:
 #### Register new user
 Open up a command prompt and type in the following (note that username and password should be in double quotes):
 
-
 ```bash
 curl -d '{"username": [USERNAME], "password": [PASSWORD]}' -H 'Content-Type: application/json' http://localhost:5000/register
 ```
-Response if success:
+HTTP 200 response to POST request:
 ```bash
-{"message": "User  created successfully."}
+{"message": "User created successfully."}
+```
+
+#### Authenticate user (get access token)
+```bash
+curl -d '{"username": [USERNAME], "password": [PASSWORD]}' -H 'Content-Type: application/json' http://localhost:5000/auth
+```
+HTTP 200 response to POST request:
+```bash
+"access_token": [ACCESS TOKEN]}
 ```

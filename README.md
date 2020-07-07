@@ -46,9 +46,14 @@ Open up a command prompt and type in the following (note that username and passw
 ```bash
 curl -d '{"username": [USERNAME], "password": [PASSWORD]}' -H 'Content-Type: application/json' http://localhost:5000/register
 ```
-HTTP/1.1 200 OK
+HTTP/1.1 201 Created
 ```bash
 {"message": "User created successfully."}
+```
+
+HTTP/1.1 400 Bad Request
+```bash
+{"message": "A user with that username already exists"}
 ```
 
 #### Authenticate user (get access token)
@@ -57,5 +62,15 @@ curl -d '{"username": [USERNAME], "password": [PASSWORD]}' -H 'Content-Type: app
 ```
 HTTP/1.1 200 OK
 ```bash
-"access_token": [ACCESS TOKEN]}
+{
+  "access_token": [ACCESS TOKEN]
+}
+```
+HTTP/1.1 401 Unauthorized
+```bash
+{
+  "description": "Invalid credentials",
+  "error": "Bad Request",
+  "status_code": 401
+}
 ```

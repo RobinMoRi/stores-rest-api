@@ -48,12 +48,16 @@ curl -d '{"username": [USERNAME], "password": [PASSWORD]}' -H 'Content-Type: app
 ```
 HTTP/1.1 201 Created
 ```bash
-{"message": "User created successfully."}
+{
+  "message": "User created successfully."
+}
 ```
 
 HTTP/1.1 400 Bad Request
 ```bash
-{"message": "A user with that username already exists"}
+{
+  "message": "A user with that username already exists"
+}
 ```
 
 #### Authenticate user (get access token)

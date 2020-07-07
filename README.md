@@ -46,7 +46,7 @@ Open up a command prompt and type in the following (note that username and passw
 ```bash
 curl -d '{"username": [USERNAME], "password": [PASSWORD]}' -H 'Content-Type: application/json' http://localhost:5000/register
 ```
-HTTP 200 response to POST request:
+HTTP/1.1 200 OK
 ```bash
 {"message": "User created successfully."}
 ```
@@ -55,7 +55,7 @@ HTTP 200 response to POST request:
 ```bash
 curl -d '{"username": [USERNAME], "password": [PASSWORD]}' -H 'Content-Type: application/json' http://localhost:5000/auth
 ```
-HTTP 200 response to POST request:
+HTTP/1.1 200 OK
 ```bash
 "access_token": [ACCESS TOKEN]}
 ```

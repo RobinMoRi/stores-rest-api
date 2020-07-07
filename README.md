@@ -8,7 +8,7 @@ following link:
 
 The project is done using:
 * Flask
-* Flask-JWT
+* Flask-JWT-Extended
 * Flask-RESTful
 * SQLAlchemy
 
@@ -79,6 +79,11 @@ curl -d '{"username": [USERNAME], "password": [PASSWORD]}' -H 'Content-Type: app
     "message": "Invalid credentials"
 }
 ```
+#### Logout user (get access token): POST /logout
+```bash
+curl -d '{"username": [USERNAME], "password": [PASSWORD]}' -H 'Content-Type: application/json' http://localhost:5000/logout
+```
+
 
 #### Create item in store: POST /items/<string:name>
 ```bash
@@ -123,7 +128,7 @@ curl -d '{"price": [PRICE], "store_id": [STORE ID]}' -H 'Content-Type: applicati
 }
 ```
 
-#### Get specific item (requires JWT autorization token): GET /items/<string:name>
+#### Get specific item (requires JWT-Extended autorization token): GET /items/<string:name>
 ```bash
 curl -H "Authorization: Bearer [ACCESS TOKEN]" http://localhost:5000/items/[ITEM NAME]
 ```
@@ -142,3 +147,65 @@ curl -H "Authorization: Bearer [ACCESS TOKEN]" http://localhost:5000/items/[ITEM
   "msg": "Signature verification failed"
 }
 ```
+```bash
+# HTTP/1.1 401 Unauthorized
+{
+  "msg": "Token has expired""
+}
+```
+
+#### Delete item: DELETE /items/<string:name>
+```bash
+curl -H "Authorization: Bearer [ACCESS TOKEN]" -X DELETE http://localhost:5000/items/[ITEM NAME]
+```
+```bash
+# HTTP/1.1 200 OK
+{
+    "message": "Item [ITEM NAME] deleted"
+}
+```
+```bash
+# HTTP/1.1 401 Unauthorized
+{
+    "message": "Admin privilege required"
+}
+```
+
+#### See all items created GET /items/
+```bash
+curl -H "Authorization: Bearer [ACCESS TOKEN]" http://localhost:5000/items
+```
+```bash
+# HTTP/1.1 200 OK (If logged in) returns a list of all items (and extra info) collected in the db
+{
+    "items": [
+        {
+            "id": [ITEM 1 ID],
+            "name": [ITEM 2 NAME],
+            "price": [PRICE],
+            "store_id": [STORE ID]
+        },
+        {
+            "id": [ITEM 2 ID],
+            "name": [ITEM 2 NAME],
+            "price": [PRICE],
+            "store_id": [STORE ID]
+        }
+    ]
+}
+
+# HTTP/1.1 200 OK (If not logged in) returns a list of just the names of the items in the db
+{
+    "items": [
+        [ITEM NAME 1,
+        ITEM NAME 2]
+    ],
+    "message": "More data available if you log in."
+}
+
+```
+
+#### Refresh access token
+```bash
+curl -H "Authorization: Bearer [REFRESH TOKEN]" -d "{'json': 'mockdata'}" http://localhost:5000/refresh/
+```    

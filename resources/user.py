@@ -42,3 +42,7 @@ class User(Resource):
             return {'message' : 'User not found'}, 404
         user.delete_from_db()
         return {'message': 'User deleted'}, 200
+
+class Users(Resource):
+    def get(self):
+        return {'user': [user.json() for user in UserModel.find_all()]}

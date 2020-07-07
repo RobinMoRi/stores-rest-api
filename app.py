@@ -5,7 +5,7 @@ from flask_restful import Api
 from flask_jwt import JWT
 
 from security import authenticate, identity
-from resources.user import UserRegister, User
+from resources.user import UserRegister, User, Users
 from resources.item import Item, Items
 from resources.store import Store, StoreList
 from db import db
@@ -31,6 +31,7 @@ api.add_resource(StoreList, '/stores')
 api.add_resource(Item, '/items/<string:name>')
 api.add_resource(UserRegister, '/register')
 api.add_resource(User, '/user/<int:user_id>')
+api.add_resource(Users, '/users')
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

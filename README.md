@@ -12,3 +12,16 @@ The project is done using:
 * Flask-RESTful
 * SQLAlchemy
 
+### Testing API from cli:
+
+#### Register new user
+Open up a command prompt and type in the following (note that username and password should be in double quotes):
+
+
+```bash
+curl -d '{"username": [USERNAME], "password": [PASSWORD]}' -H 'Content-Type: application/json' http://localhost:5000/register
+```
+Response if success:
+```bash
+{"message": "User  created successfully."}
+```

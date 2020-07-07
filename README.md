@@ -80,3 +80,46 @@ curl -d '{"username": [USERNAME], "password": [PASSWORD]}' -H 'Content-Type: app
   "status_code": 401
 }
 ```
+
+#### Create item in store: POST /items/<string:name>
+```bash
+curl -d '{"price": [PRICE], "store_id": [STORE ID]}' -H 'Content-Type: application/json' http://localhost:5000/items/[ITEM NAME]
+```
+```bash
+# HTTP/1.1 201 Created
+{
+    "id": [ITEM ID],
+    "name": [ITEM NAME],
+    "price": [PRICE],
+    "store_id": [STORE ID]
+}
+```
+
+```bash
+# HTTP/1.1 400 Bad Request: missing store id
+{
+    "message": {
+        "store_id": "Every item needs a store id"
+    }
+}
+```
+```bash
+# HTTP/1.1 400 Bad Request: missing price
+{
+    "message": {
+        "price": "This field cannot be left blank"
+    }
+}
+```
+```bash
+# HTTP/1.1 400 Bad Request
+{
+    'message': "Item already exists"
+}
+```
+```bash
+# HTTP/1.1 404 Not found
+{
+    'message': 'Item not found'
+}
+```

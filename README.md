@@ -123,3 +123,33 @@ curl -d '{"price": [PRICE], "store_id": [STORE ID]}' -H 'Content-Type: applicati
     'message': 'Item not found'
 }
 ```
+
+#### Get specific item (requires JWT autorization token): GET /items/<string:name>
+```bash
+curl -H "Authorization: JWT [ACCESS TOKEN]" http://localhost:5000/items/[ITEM NAME]
+```
+```bash
+# HTTP/1.1 200 OK
+{
+    "id": [ITEM ID],
+    "name": [ITEM NAME],
+    "price": [PRICE],
+    "store_id": [STORE ID]
+}
+```
+```bash
+# HTTP/1.1 401 Unauthorized
+{
+  "description": "Signature verification failed",
+  "error": "Invalid token",
+  "status_code": 401
+}
+```
+```bash
+# HTTP/1.1 401 Unauthorized
+{
+  "description": "Signature has expired",
+  "error": "Invalid token",
+  "status_code": 401
+}
+```

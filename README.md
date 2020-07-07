@@ -40,7 +40,7 @@ python app.py
 API will be available from http://localhost:5000/
 
 ### Testing API from cli:
-#### Register new user
+#### Register new user: POST /register
 Open up a command prompt and type in the following (note that username and password should be in double quotes):
 
 ```bash
@@ -61,7 +61,7 @@ curl -d '{"username": [USERNAME], "password": [PASSWORD]}' -H 'Content-Type: app
 }
 ```
 
-#### Authenticate user (get access token)
+#### Authenticate user (get access token): POST /auth
 ```bash
 curl -d '{"username": [USERNAME], "password": [PASSWORD]}' -H 'Content-Type: application/json' http://localhost:5000/auth
 ```

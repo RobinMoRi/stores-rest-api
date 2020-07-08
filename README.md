@@ -53,14 +53,6 @@ curl -d '{"username": [USERNAME], "password": [PASSWORD]}' -H 'Content-Type: app
   "message": "User created successfully."
 }
 ```
-
-```bash
-# HTTP/1.1 400 Bad Request
-{
-  "message": "A user with that username already exists"
-}
-```
-
 #### Authenticate user (get access token): POST /login
 ```bash
 curl -d '{"username": [USERNAME], "password": [PASSWORD]}' -H 'Content-Type: application/json' http://localhost:5000/login
@@ -72,19 +64,16 @@ curl -d '{"username": [USERNAME], "password": [PASSWORD]}' -H 'Content-Type: app
     "refresh_token": [REFRESH TOKEN]
 }
 ```
-
-```bash
-# HTTP/1.1 401 Unauthorized
-{
-    "message": "Invalid credentials"
-}
-```
 #### Logout user (get access token): POST /logout
 ```bash
-curl -d '{"username": [USERNAME], "password": [PASSWORD]}' -H 'Content-Type: application/json' http://localhost:5000/logout
+curl -d '{"username": [USERNAME], "password": [PASSWORD]}' -H "Authorization: Bearer [ACCESS TOKEN]" http://localhost:5000/logout
 ```
-
-
+```bash
+# HTTP/1.1 200 OK
+{
+    "message": "Successfully logged out"
+}
+```
 #### Create item in store: POST /items/<string:name>
 ```bash
 curl -d '{"price": [PRICE], "store_id": [STORE ID]}' -H 'Content-Type: application/json' http://localhost:5000/items/[ITEM NAME]
@@ -98,36 +87,6 @@ curl -d '{"price": [PRICE], "store_id": [STORE ID]}' -H 'Content-Type: applicati
     "store_id": [STORE ID]
 }
 ```
-
-```bash
-# HTTP/1.1 400 Bad Request: missing store id
-{
-    "message": {
-        "store_id": "Every item needs a store id"
-    }
-}
-```
-```bash
-# HTTP/1.1 400 Bad Request: missing price
-{
-    "message": {
-        "price": "This field cannot be left blank"
-    }
-}
-```
-```bash
-# HTTP/1.1 400 Bad Request
-{
-    'message': "Item already exists"
-}
-```
-```bash
-# HTTP/1.1 404 Not found
-{
-    'message': 'Item not found'
-}
-```
-
 #### Get specific item (requires JWT-Extended autorization token): GET /items/<string:name>
 ```bash
 curl -H "Authorization: Bearer [ACCESS TOKEN]" http://localhost:5000/items/[ITEM NAME]
@@ -141,19 +100,6 @@ curl -H "Authorization: Bearer [ACCESS TOKEN]" http://localhost:5000/items/[ITEM
     "store_id": [STORE ID]
 }
 ```
-```bash
-# HTTP/1.1 422 Unprocessable Entity
-{
-  "msg": "Signature verification failed"
-}
-```
-```bash
-# HTTP/1.1 401 Unauthorized
-{
-  "msg": "Token has expired""
-}
-```
-
 #### Delete item: DELETE /items/<string:name>
 ```bash
 curl -H "Authorization: Bearer [ACCESS TOKEN]" -X DELETE http://localhost:5000/items/[ITEM NAME]
@@ -164,14 +110,7 @@ curl -H "Authorization: Bearer [ACCESS TOKEN]" -X DELETE http://localhost:5000/i
     "message": "Item [ITEM NAME] deleted"
 }
 ```
-```bash
-# HTTP/1.1 401 Unauthorized
-{
-    "message": "Admin privilege required"
-}
-```
-
-#### See all items created GET /items/
+#### See all items created GET /items
 ```bash
 curl -H "Authorization: Bearer [ACCESS TOKEN]" http://localhost:5000/items
 ```
@@ -204,8 +143,13 @@ curl -H "Authorization: Bearer [ACCESS TOKEN]" http://localhost:5000/items
 }
 
 ```
-
-#### Refresh access token
+#### Refresh access token POST /refresh
 ```bash
-curl -H "Authorization: Bearer [REFRESH TOKEN]" -d "{'json': 'mockdata'}" http://localhost:5000/refresh/
-```    
+curl -H "Authorization: Bearer [REFRESH TOKEN]" -d "{'json': 'mockdata'}" http://localhost:5000/refresh
+```
+```bash
+# HTTP/1.1 200 OK returns new access token
+{
+    "access_token": [ACCESS TOKEN]
+}
+```
